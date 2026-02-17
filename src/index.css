@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@layer base {
+  html,
+  body,
+  #root,
+  svg {
+    margin: 0;
+    padding: 0;
+    overscroll-behavior: none;
+  }
+}
+
+@tailwind utilities;
