@@ -10,6 +10,7 @@ import type { TypstRenderer } from "@myriaddreamin/typst.ts/dist/esm/renderer";
 export function useTypst(containerRef: React.RefObject<HTMLDivElement | null>) {
   const compilerRef = useRef<TypstCompiler | null>(null);
   const rendererRef = useRef<TypstRenderer | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     const init = async () => {
@@ -36,9 +37,10 @@ export function useTypst(containerRef: React.RefObject<HTMLDivElement | null>) {
 
       compilerRef.current = compiler;
       rendererRef.current = renderer;
+      setIsReady(true);
     };
     init();
   }, []);
 
-  return { compilerRef, rendererRef };
+  return { compilerRef, rendererRef, isReady };
 }

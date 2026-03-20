@@ -10,7 +10,7 @@ interface TypstViewProps {
 const TypstView = ({ buffer }: TypstViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isCompiling = useRef(false);
-  const { compilerRef, rendererRef } = useTypst(containerRef);
+  const { compilerRef, rendererRef, isReady } = useTypst(containerRef);
   const [urlParams, setUrl] = useUrl();
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const TypstView = ({ buffer }: TypstViewProps) => {
     // TODO: handle debounce on editor level
     // const timer = setTimeout(run, 50);
     // return () => clearTimeout(timer);
-  }, [buffer]);
+  }, [buffer, isReady]);
 
   return (
     <div ref={containerRef} className="w-1/2 h-full p-0 overflow-auto"></div>
