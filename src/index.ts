@@ -60,4 +60,4 @@ const server = Bun.serve<ServerData>({
   development: process.env.NODE_ENV !== "production",
 });
 
-console.log(`🚀 Server running at ${server.url}`);
+console.log(`Server running at ${server.url}`);
