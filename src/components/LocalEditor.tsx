@@ -2,11 +2,10 @@ import Editor, { type OnMount } from "@monaco-editor/react";
 import {
   useEffect,
   useRef,
-  useState,
+  type ClipboardEvent,
   type Dispatch,
   type SetStateAction,
 } from "react";
-import useUrl from "@/hooks/use-url";
 import { getBuffer, storeBuffer, storeImage } from "@/store";
 
 interface LocalEditorProps {
@@ -16,23 +15,24 @@ interface LocalEditorProps {
 
 const LocalEditor = ({ buffer, setBuffer }: LocalEditorProps) => {
   const editorRef = useRef<any>(null);
-  const [urlParams, setUrl] = useUrl();
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const loadData = async () => {
-      const buffer = await getBuffer();
-      setBuffer(buffer);
+      const stored = await getBuffer();
+      if (typeof stored === "string") {
+        setBuffer(stored);
+      }
     };
 
-    loadData();
-  }, [urlParams]);
+    void loadData();
+  }, [setBuffer]);
 
   const onMount: OnMount = (editor) => {
     editorRef.current = editor;
   };
 
-  const handlePaste = async (e: React.ClipboardEvent) => {
+  const handlePaste = async (e: ClipboardEvent<HTMLDivElement>) => {
     if (e.clipboardData.files.length === 0) return;
     const imageFile = e.clipboardData.files[0];
 
@@ -41,7 +41,6 @@ const LocalEditor = ({ buffer, setBuffer }: LocalEditorProps) => {
       const data = new Uint8Array(await imageFile.arrayBuffer());
       const filename = imageFile.name.normalize();
 
-      // TODO: make it so that we passin the imageFile
       console.log("pasted");
       storeImage(filename, data);
 
@@ -56,12 +55,13 @@ const LocalEditor = ({ buffer, setBuffer }: LocalEditorProps) => {
     }
   };
 
-  const handleChange = (value: string) => {
+  const handleChange = (value: string | undefined | null) => {
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(async () => {
-      setBuffer(value);
-      console.log("Saving to DB:", value);
-      await storeBuffer(value);
+      const nextValue = value ?? "";
+      setBuffer(nextValue);
+      console.log("Saving to DB:", nextValue);
+      await storeBuffer(nextValue);
     }, 200);
   };
 
@@ -72,7 +72,7 @@ const LocalEditor = ({ buffer, setBuffer }: LocalEditorProps) => {
         theme="vs-dark"
         defaultLanguage="markdown"
         value={buffer}
-        onChange={(value) => handleChange(value || "")}
+        onChange={handleChange}
         onMount={onMount}
         options={{
           minimap: { enabled: false },

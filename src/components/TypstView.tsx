@@ -1,7 +1,6 @@
-import { useEffect, useRef, type RefObject } from "react";
+import { useEffect, useRef } from "react";
 import { useTypst } from "@/hooks/use-typst";
-import useUrl from "@/hooks/use-url";
-import { getBuffer, getImages } from "@/store";
+import { getImages } from "@/store";
 
 interface TypstViewProps {
   buffer: string;
@@ -11,7 +10,6 @@ const TypstView = ({ buffer }: TypstViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isCompiling = useRef(false);
   const { compilerRef, rendererRef, isReady } = useTypst(containerRef);
-  const [urlParams, setUrl] = useUrl();
 
   useEffect(() => {
     const run = async () => {
@@ -24,10 +22,6 @@ const TypstView = ({ buffer }: TypstViewProps) => {
       const renderer = rendererRef.current;
 
       try {
-        // const files = yDoc.current.getMap<Uint8Array>("files");
-        // files.forEach((data, filename) => {
-        //   compiler.mapShadow(`/${filename}`, data);
-        // });
         const imgs = await getImages();
         if (imgs instanceof Map) {
           imgs.forEach((img, imgName) => {
@@ -53,15 +47,11 @@ const TypstView = ({ buffer }: TypstViewProps) => {
         console.error(e);
       } finally {
         await compiler.reset();
-        // compiler.resetShadow();
         isCompiling.current = false;
       }
     };
 
     run();
-    // TODO: handle debounce on editor level
-    // const timer = setTimeout(run, 50);
-    // return () => clearTimeout(timer);
   }, [buffer, isReady]);
 
   return (

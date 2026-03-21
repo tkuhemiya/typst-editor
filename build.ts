@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 import plugin from "bun-plugin-tailwind";
 import { existsSync } from "fs";
-import { rm } from "fs/promises";
+import { cp, rm } from "fs/promises";
 import path from "path";
 
 if (process.argv.includes("--help") || process.argv.includes("-h")) {
@@ -140,6 +140,15 @@ const result = await Bun.build({
   },
   ...cliConfig,
 });
+
+const assetsSrcDir = path.join("src", "assets");
+const assetsDestDir = path.join(outdir, "assets");
+
+if (existsSync(assetsSrcDir)) {
+  console.log(`📁 Copying assets from ${assetsSrcDir} to ${assetsDestDir}`);
+  await rm(assetsDestDir, { recursive: true, force: true });
+  await cp(assetsSrcDir, assetsDestDir, { recursive: true });
+}
 
 const end = performance.now();
 
