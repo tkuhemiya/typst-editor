@@ -20,7 +20,7 @@ const LocalEditor = ({ buffer, setBuffer }: LocalEditorProps) => {
   useEffect(() => {
     const loadData = async () => {
       const stored = await getBuffer();
-      if (typeof stored === "string") {
+      if (stored) {
         setBuffer(stored);
       }
     };
