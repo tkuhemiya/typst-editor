@@ -1,21 +1,18 @@
-# bun-react-tailwind-template
+# Typst Editor
 
-To install dependencies:
+A tiny playground for experimenting with Typst documents in the browser.
+
+![Typst Editor demo](demo.png)
+
+## Getting Started
 
 ```bash
 bun install
+bun run dev
 ```
 
-To start a development server:
+## Build
 
 ```bash
-bun dev
+bun run build
 ```
-
-To run for production:
-
-```bash
-bun start
-```
-
-This project was created using `bun init` in bun v1.3.5. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
