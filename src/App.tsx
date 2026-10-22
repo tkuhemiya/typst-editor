@@ -6,7 +6,7 @@ export function App() {
   const [buffer, setBuffer] = useState("");
 
   return (
-    <div className="flex flex-1 h-screen m-0">
+    <div className="m-0 flex h-screen flex-1">
       <LocalEditor buffer={buffer} setBuffer={setBuffer} />
       <TypstView buffer={buffer} />
     </div>

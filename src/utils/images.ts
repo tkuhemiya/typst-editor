@@ -16,7 +16,8 @@ export const buildImageFilename = (originalName: string): string => {
   )}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
   const extension = originalName.toLowerCase().split(".").pop() || "png";
   const shortId = Math.random().toString(36).slice(2, 8);
-  const stem = sanitizeStem(originalName.split(".").slice(0, -1).join(".")) || "image";
+  const stem =
+    sanitizeStem(originalName.split(".").slice(0, -1).join(".")) || "image";
   return `${stem}-${stamp}-${shortId}.${extension}`;
 };
 

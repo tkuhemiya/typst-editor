@@ -7,10 +7,10 @@ export const storeBuffer = async (buffer: string) => {
 };
 export const getBuffer = async () => {
   let bufStore = await get(`${VERSION}:buffer`);
-  if ( bufStore == null ){
-    bufStore = typstExample
+  if (bufStore == null) {
+    bufStore = typstExample;
   }
-  return bufStore
+  return bufStore;
 };
 
 export const storeImage = async (name: string, image: Uint8Array) => {
@@ -92,4 +92,4 @@ const typstExample = `
 )
 
 #rect(width: 100%, height: 100pt, fill: star-tile, stroke: 2pt + black)
-`
+`;

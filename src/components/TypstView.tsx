@@ -9,7 +9,7 @@ interface TypstViewProps {
 const TypstView = ({ buffer }: TypstViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isCompiling = useRef(false);
-  const { compilerRef, rendererRef, isReady } = useTypst(containerRef);
+  const { compilerRef, rendererRef, isReady } = useTypst();
 
   useEffect(() => {
     const run = async () => {
@@ -55,7 +55,7 @@ const TypstView = ({ buffer }: TypstViewProps) => {
   }, [buffer, isReady]);
 
   return (
-    <div ref={containerRef} className="w-1/2 h-full p-0 overflow-auto"></div>
+    <div ref={containerRef} className="h-full w-1/2 overflow-auto p-0"></div>
   );
 };
 
