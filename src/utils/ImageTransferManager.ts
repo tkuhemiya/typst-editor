@@ -1,7 +1,11 @@
 const CHUNK_SIZE = 256 * 1024; // 256KB chunks
 
+interface SimplePeerLike {
+  _pc?: RTCPeerConnection;
+}
+
 interface WebrtcConn {
-  peer: any;
+  peer: SimplePeerLike;
   connected: boolean;
   synced: boolean;
 }
@@ -57,8 +61,7 @@ export class ImageTransferManager {
 
   setupPeer(webrtcConn: WebrtcConn, peerId: string) {
     try {
-      const simplePeer = webrtcConn.peer as any;
-      const pc = simplePeer._pc as RTCPeerConnection;
+      const pc = webrtcConn.peer._pc;
 
       if (!pc) {
         console.warn("No peer connection available for", peerId);
@@ -223,7 +226,7 @@ export class ImageTransferManager {
               );
               break;
           }
-        } catch (parseError) {
+        } catch {
           // Not JSON, might be binary chunk data
           if (this.lastChunkMetadata && data instanceof ArrayBuffer) {
             this.handleBinaryChunk(new Uint8Array(data));
@@ -398,7 +401,7 @@ export class ImageTransferManager {
     this.peerChannels.clear();
 
     // Reject all pending requests
-    for (const [imageId, pending] of this.pendingRequests.entries()) {
+    for (const pending of this.pendingRequests.values()) {
       pending.reject(new Error("Transfer manager cleanup"));
     }
 

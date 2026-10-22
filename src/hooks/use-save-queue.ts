@@ -15,7 +15,9 @@ interface UseSaveQueueArgs {
   initialState?: SaveStatus;
 }
 
-export function useSaveQueue({ initialState = SAVED_STATUS }: UseSaveQueueArgs = {}) {
+export function useSaveQueue({
+  initialState = SAVED_STATUS,
+}: UseSaveQueueArgs = {}) {
   const [status, setStatus] = useState<SaveStatus>(initialState);
   const pendingValueRef = useRef<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);

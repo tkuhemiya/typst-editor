@@ -11,7 +11,7 @@ import compilerWasmUrl from "../assets/typst_ts_web_compiler_bg.wasm" with { typ
 import rendererWasmUrl from "../assets/typst_ts_renderer_bg.wasm" with { type: "file" };
 import fontFileUrl from "../assets/Geist-Regular.ttf" with { type: "file" };
 
-export function useTypst(containerRef: React.RefObject<HTMLDivElement | null>) {
+export function useTypst() {
   const compilerRef = useRef<TypstCompiler | null>(null);
   const rendererRef = useRef<TypstRenderer | null>(null);
   const [isReady, setIsReady] = useState(false);

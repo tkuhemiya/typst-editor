@@ -6,7 +6,7 @@ import prettier from "eslint-config-prettier";
 export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  ...tailwindcss.configs["flat/recommended"],
+  tailwindcss.configs.recommended,
   prettier,
   {
     files: ["**/*.{ts,tsx,js,jsx}"],
@@ -25,9 +25,15 @@ export default [
     },
     settings: {
       tailwindcss: {
-        callees: ["classnames", "clsx", "ctl", "cn", "cva", "tw"],
-        config: "./tailwind.config.ts",
+        cssConfigPath: "./src/index.css",
+        functions: ["classnames", "clsx", "ctl", "cn", "cva", "tw"],
       },
+    },
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
     },
   },
   {

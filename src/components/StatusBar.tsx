@@ -36,11 +36,16 @@ export default function StatusBar({
   return (
     <header className="flex min-h-12 items-center justify-between gap-3 border-b border-zinc-800 bg-zinc-950 px-3 py-2 text-zinc-100">
       <div className="flex items-center gap-2">
-        <span className={`${pillClass} ${saveClass}`}>{saveStatus.message}</span>
-        <span className={`${pillClass} ${compileClass}`}>{compileStatus.message}</span>
+        <span className={`${pillClass} ${saveClass}`}>
+          {saveStatus.message}
+        </span>
+        <span className={`${pillClass} ${compileClass}`}>
+          {compileStatus.message}
+        </span>
         {roomId ? (
           <span className={`${pillClass} bg-zinc-700 text-zinc-100`}>
-            room {roomId} | peers {userCount} | {connectionState || "connecting"}
+            room {roomId} | peers {userCount} |{" "}
+            {connectionState || "connecting"}
           </span>
         ) : null}
       </div>

@@ -14,7 +14,7 @@ interface LocalEditorProps {
 }
 
 const LocalEditor = ({ buffer, setBuffer }: LocalEditorProps) => {
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -44,8 +44,13 @@ const LocalEditor = ({ buffer, setBuffer }: LocalEditorProps) => {
       console.log("pasted");
       storeImage(filename, data);
 
-      const selection = editorRef.current.getSelection();
-      editorRef.current.executeEdits("paste-image", [
+      const editor = editorRef.current;
+      if (!editor) return;
+
+      const selection = editor.getSelection();
+      if (!selection) return;
+
+      editor.executeEdits("paste-image", [
         {
           range: selection,
           text: `#image("${filename}")`,
@@ -66,7 +71,7 @@ const LocalEditor = ({ buffer, setBuffer }: LocalEditorProps) => {
   };
 
   return (
-    <div className="w-1/2 h-full" onPasteCapture={handlePaste}>
+    <div className="h-full w-1/2" onPasteCapture={handlePaste}>
       <Editor
         height="100%"
         theme="vs-dark"
