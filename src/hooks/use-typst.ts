@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import {
   createTypstCompiler,
   createTypstRenderer,
@@ -14,7 +14,10 @@ import fontFileUrl from "../assets/Geist-Regular.ttf" with { type: "file" };
 export function useTypst() {
   const compilerRef = useRef<TypstCompiler | null>(null);
   const rendererRef = useRef<TypstRenderer | null>(null);
-  const [isReady, setIsReady] = useState(false);
+  const [isReady, setIsReady] = useReducer(
+    (_: boolean, nextValue: boolean) => nextValue,
+    false
+  );
 
   useEffect(() => {
     const init = async () => {
