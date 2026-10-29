@@ -4,13 +4,12 @@ import {
   useRef,
   type ClipboardEvent,
   type Dispatch,
-  type SetStateAction,
 } from "react";
 import { getBuffer, storeBuffer, storeImage } from "@/store";
 
 interface LocalEditorProps {
   buffer: string;
-  setBuffer: Dispatch<SetStateAction<string>>;
+  setBuffer: Dispatch<string>;
 }
 
 const LocalEditor = ({ buffer, setBuffer }: LocalEditorProps) => {

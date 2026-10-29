@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useReducer, useRef } from "react";
 import {
   clearRecoveryDirty,
   markRecoveryDirty,
@@ -18,7 +18,10 @@ interface UseSaveQueueArgs {
 export function useSaveQueue({
   initialState = SAVED_STATUS,
 }: UseSaveQueueArgs = {}) {
-  const [status, setStatus] = useState<SaveStatus>(initialState);
+  const [status, setStatus] = useReducer(
+    (_: SaveStatus, nextValue: SaveStatus) => nextValue,
+    initialState
+  );
   const pendingValueRef = useRef<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inFlightRef = useRef(false);
