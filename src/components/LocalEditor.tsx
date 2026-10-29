@@ -1,10 +1,5 @@
 import Editor, { type OnMount } from "@monaco-editor/react";
-import {
-  useEffect,
-  useRef,
-  type ClipboardEvent,
-  type Dispatch,
-} from "react";
+import { useEffect, useRef, type ClipboardEvent, type Dispatch } from "react";
 import { getBuffer, storeBuffer, storeImage } from "@/store";
 
 interface LocalEditorProps {
